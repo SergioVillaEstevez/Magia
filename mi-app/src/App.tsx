@@ -1,25 +1,35 @@
 
-import './componentes/Boton'
+import './componentes/Espectador'
 import './App.css'
-import { Boton } from './componentes/Boton'
-import { useState } from 'react'
+
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Espectador from './componentes/Espectador'
+import Mago from './componentes/Mago'
 
 
 function App() {
 
-  const[text, setText]= useState("BIENVENID@")
-
+  
 
   return (
-    <>
-      <div><h1>{text}</h1></div>
 
-      <Boton setText={setText}></Boton>
+    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Espectador/>} />
+        <Route path="/mago" element={<Mago/>} />
+      </Routes>
+    </BrowserRouter>
+
+
+
+
 
       
 
 
-    </>
+    
   )
 }
 
