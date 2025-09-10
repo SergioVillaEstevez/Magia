@@ -88,7 +88,7 @@ export const Boton = ({setText} : BotonProps) =>{
             
             {mostrarCarta && (
                 <div>
-                <img src="public/2Picas.png" alt="2 de picas" width={400} height={600}/>
+                <img src="/img/2Picas.png" alt="2 de picas" width={400} height={600}/>
                 </div>
 
 
@@ -96,7 +96,7 @@ export const Boton = ({setText} : BotonProps) =>{
 
             {futuraCarta && (   
                 <div>
-                    <img src="public/reinaPicas.png" alt="Reina de Picas" width={400} height={600} />
+                    <img src="/img/reinaPicas.png" alt="Reina de Picas" width={400} height={600} />
 
                 </div>
 
