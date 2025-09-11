@@ -1,23 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
- const Espectador = () => {
+const Espectador = () => {
   const [mostrarCarta, setMostrarCarta] = useState(false);
   const [mostrarBoton, setMostrarBoton] = useState(true);
   const [mostrarVolver, setMostrarVolver] = useState(false);
-  const [carta, setCarta] = useState<string | null>(null);
+  const [carta, setCarta] = useState("");
+  const [tapCount, setTapCount] = useState(0); // contador de toques
+  const navigate = useNavigate();
 
-
+  // Cargar carta forzada
   useEffect(() => {
     const cartaForzada = localStorage.getItem("cartaForzada");
-    if (cartaForzada) {
-      setCarta(cartaForzada);
-    }
+    if (cartaForzada) setCarta(cartaForzada);
   }, []);
 
-  const volverIncio = () => {
-    setMostrarCarta(false);
-    setMostrarBoton(true);
-    setMostrarVolver(false);
+  // Reset contador después de 1 segundo sin tocar
+  useEffect(() => {
+    if (tapCount === 0) return;
+    const timer = setTimeout(() => setTapCount(0), 1000);
+    return () => clearTimeout(timer);
+  }, [tapCount]);
+
+  const handleTripleTap = () => {
+    setTapCount(prev => prev + 1);
+    if (tapCount + 1 === 3) {
+      navigate("/mago"); // redirige a modo mago
+    }
   };
 
   const verTuCarta = () => {
@@ -26,24 +35,31 @@ import { useEffect, useState } from "react";
     setMostrarVolver(true);
   };
 
+  const volverInicio = () => {
+    setMostrarCarta(false);
+    setMostrarBoton(true);
+    setMostrarVolver(false);
+  };
+
   return (
     <>
+      {/* Zona invisible en la esquina superior derecha */}
+      <div
+        onClick={handleTripleTap}
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "50px",
+          height: "50px",
+          zIndex: 1000,
+          cursor: "pointer",
+        }}
+      />
+
       {mostrarBoton && (
-        <div
-          className="contenedorBotones"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            justifyContent: "center",
-            padding: "20px",
-          }}
-        >
-          <input
-            type="button"
-            name="boton"
-            id="boton"
-            value="VER CARTA"
+        <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+          <button
             onClick={verTuCarta}
             style={{
               background: "blue",
@@ -52,46 +68,28 @@ import { useEffect, useState } from "react";
               fontSize: "40px",
               borderRadius: "20px",
               border: "none",
+              color: "white",
             }}
+          >
+            VER CARTA
+          </button>
+        </div>
+      )}
+
+      {mostrarCarta && carta && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <img
+            src={`/img/${carta}.png`}
+            alt={carta}
+            style={{ width: "400px", height: "600px", borderRadius: "20px" }}
           />
         </div>
       )}
 
-      <div
-        className="ContenedoCartas"
-        style={{
-          display: "flex",
-          gap: "20px",
-          justifyContent: "center",
-          width: "100%",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "20px",
-        }}
-      >
-        {mostrarCarta && carta && (
-          <div>
-            <img
-              src={`/img/${carta}.png`} // ⚠️ Ahora usa la carta seleccionada
-              alt={carta}
-              style={{
-                width: "400px",
-                height: "600px",
-                borderRadius: "20px",
-              }}
-            />
-          </div>
-        )}
-      </div>
-
       {mostrarVolver && (
-        <div>
-          <input
-            type="button"
-            name="volver"
-            id="volver"
-            onClick={volverIncio}
-            value="volver"
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <button
+            onClick={volverInicio}
             style={{
               background: "blue",
               width: "100px",
@@ -99,28 +97,15 @@ import { useEffect, useState } from "react";
               fontSize: "20px",
               border: "none",
               borderRadius: "20px",
+              color: "white",
             }}
-          />
+          >
+            volver
+          </button>
         </div>
       )}
-
-      <style>
-        {`
-          @media (max-width: 600px) {
-            #boton, #volver {
-              width: 80%;
-              height: 150px;
-              font-size: 24px;
-            }
-            .ContenedoCartas img {
-              width: 200px !important;
-              height: 300px !important;
-            }
-          }
-        `}
-      </style>
     </>
   );
 };
 
-export  default Espectador;
+export default Espectador;

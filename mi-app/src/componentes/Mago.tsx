@@ -1,18 +1,24 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
   const Mago = ()=> {
   const cartas = [
     { nombre: "2Picas", img: "/img/2Picas.png" },
     { nombre: "reinaPicas", img: "/img/reinaPicas.png" },
     { nombre: "7Treboles", img: "/img/7Treboles.png" },
+    { nombre: "AsDiamantes", img: "/img/AsDiamantes.png" },
+    { nombre: "AsCorazones", img: "/img/AsCorazones.png" },
+
   ];
 
   const [cartaSeleccionada, setCartaSeleccionada] = useState("");
+   const navigate = useNavigate();
 
   // Guardamos la carta en localStorage para que el espectador la vea
   useEffect(() => {
     if (cartaSeleccionada) {
       localStorage.setItem("cartaForzada", cartaSeleccionada);
+       navigate("/");
     }
   }, [cartaSeleccionada]);
 
@@ -28,7 +34,14 @@ import { useState, useEffect } from "react";
             className={`cursor-pointer border-4 ${
               cartaSeleccionada === c.nombre ? "border-green-500" : "border-transparent"
             } rounded`}
-            onClick={() => setCartaSeleccionada(c.nombre)}
+            onClick={() =>{
+                
+                setCartaSeleccionada(c.nombre)
+
+            
+            
+            }}
+
             style={{
 
                 width:"200px",
