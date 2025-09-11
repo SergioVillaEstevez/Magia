@@ -56,20 +56,22 @@ const Espectador = () => {
           cursor: "pointer",
         }}
       />
-
+<h1>MAGIC VILLA</h1>
       {mostrarBoton && (
         <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+          
           <button
             onClick={verTuCarta}
             style={{
-              background: "blue",
-              height: "100px",
-              width: "300px",
-              fontSize: "40px",
-              borderRadius: "20px",
-              border: "none",
-              color: "white",
-            }}
+            width: "300px",
+            maxWidth: "80%",
+            height: "100px",
+            fontSize: "30px",
+            borderRadius: "20px",
+            border: "none",
+            color: "white",
+            background: "blue",
+  }}
           >
             VER CARTA
           </button>
@@ -81,7 +83,12 @@ const Espectador = () => {
           <img
             src={`/img/${carta}.png`}
             alt={carta}
-            style={{ width: "400px", height: "600px", borderRadius: "20px" }}
+              style={{
+            width: "400px",
+            maxWidth: "90%",
+            height: "auto",
+            borderRadius: "20px",
+          }}
           />
         </div>
       )}
